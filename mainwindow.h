@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+
+#include "myview.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,10 +19,15 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void rysuj( QPoint punkt );
 
 private:
     Ui::MainWindow *ui;
+    myGraphicsView * scena;
+
+    QGraphicsScene *s;
+
+    QRectF rect;
 };
 
 #endif // MAINWINDOW_H
