@@ -23,10 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
     scena->setScene(s);
 
     robot = new ramie(200, 200, QPoint( scena->width()/2, scena->height()/2) );
+    spadanie = new fizyka(0, scena->height() );
 
     connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
     connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
     connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
+    connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
 
     rect = s->sceneRect();
 
@@ -38,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     QGraphicsItem * wsk;
-    obiekt obj = {NULL, 0, 0};
+    obiekt obj = {NULL, 0, 1};
 
     for( int i=0; i<4; i++ )
     {
@@ -51,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     trzymany = NULL;
-
-    spadanie = new fizyka(0, scena->height() );
     spadanie->zarejestruj_obiekty( &klocki );
 }
 
@@ -77,13 +77,12 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
     for( int i=0; i<klocki.size(); i++ )
     {
         s->addItem( klocki[i].wsk );
-//        if( klocki[i].wsk->y() < 650 && klocki[i].wsk != robot->zlapany() )  klocki[i].wsk->setY( 650 );
     }
 
-//    QGraphicsItem *it = s->itemAt(p2, QTransform());
+    QGraphicsItem *it = s->itemAt(p2, QTransform());
+    robot->zlap(it);
 
-//    if( it == NULL ) robot->zlap(NULL);
-//    else robot->zlap(it);
+
     narysuj_ramie(p0,p1);
     narysuj_ramie(p1,p2);
 

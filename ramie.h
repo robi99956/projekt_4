@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QGraphicsItem>
+#include <QTimer>
+
 #include "kinematyka.h"
 
 class ramie : public QObject
@@ -19,15 +21,26 @@ public:
 signals:
     void rysuj( QPoint p0, QPoint p1, QPoint p2 );
 
+    void zlapal( QGraphicsItem * klocek );
+
 public slots:
     void ustaw( QPoint p );
     void KeyEvent( int kod );
 
+private slots:
+    void animacja( void );
+
 private:
+    QPoint wyznacz_kolejny( void );
+
     kinematyka * k;
     QPoint p1, p0, p2;
 
     QGraphicsItem * trzymany;
+
+    // do animacji - usuwanie teleportowania ramienia po kliknięciu gdzieś dalej
+    QPoint aktualny, docelowy;
+    QTimer timer;
 };
 
 #endif // RAMIE_H

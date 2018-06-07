@@ -20,12 +20,14 @@ public:
     fizyka( int w, int h );
     void zarejestruj_obiekty( QVector< obiekt > *obiekty );
 
+public slots:
+    void zlapane( QGraphicsItem * klocek );
+
 private slots:
     void klatka( void );
 
 private:
     bool czy_cos_jest( QRectF obszar, QGraphicsItem *opuszczamy );
-    void zaczep( QPoint pkt );
 
     QVector< obiekt > *obiekty;
     int w, h;

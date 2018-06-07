@@ -6,12 +6,21 @@ ramie::ramie(int l1, int l2, QPoint poczatek)
     p0 = poczatek;
 
     trzymany = NULL;
+    aktualny = docelowy = p0;
+
+    connect(&timer, SIGNAL(timeout()), this, SLOT(animacja()));
+    timer.start(3);
 }
 
 void ramie::zlap(QGraphicsItem *klocek)
 {
-    if( (klocek == NULL && trzymany != NULL) || (klocek != NULL && trzymany == NULL) )
+    if( (klocek == NULL && trzymany != NULL) || (klocek != NULL && trzymany == NULL) )  
+    {
+        if( klocek->pos() == QPointF(0,0) ) return;
+
         trzymany = klocek;
+        emit zlapal(klocek);
+    }
 }
 
 QGraphicsItem *ramie::zlapany()
@@ -26,21 +35,51 @@ ramie::~ramie()
 
 void ramie::ustaw(QPoint p)
 {
-    p1 = k->przelicz(p);
+    docelowy = p;
+}
+
+void ramie::KeyEvent(int kod)
+{
+    if( kod == Qt::Key_Space )
+    {
+        trzymany->moveBy(0, 1);
+
+        trzymany = NULL;
+
+        emit zlapal(NULL);
+        emit rysuj(p0, p1, p2);
+    }
+}
+
+void ramie::animacja()
+{
+    qDebug() << aktualny << docelowy;
+    if( aktualny == docelowy ) return;
+
+    p2 = aktualny = wyznacz_kolejny();
+    p1 = k->przelicz(p2);
 
     if( p1.isNull() ) return;
 
     p1.setX( p1.x() + p0.x() );
     p1.setY( p0.y() - p1.y() );
 
-    if( trzymany ) trzymany->setPos( p );
-    p2 = p;
+    if( trzymany ) trzymany->setPos( p2 );
 
-    emit rysuj(p0, p1, p);
+    emit rysuj(p0, p1, p2);
 }
 
-void ramie::KeyEvent(int kod)
+QPoint ramie::wyznacz_kolejny()
 {
-    if( kod == Qt::Key_Space ) trzymany = NULL;
-    emit rysuj(p0, p1, p2);
+    QPoint p = aktualny;
+
+    if( aktualny.x() > docelowy.x() ) p.setX( aktualny.x()-1 );
+    else
+        if( aktualny.x() < docelowy.x() ) p.setX( aktualny.x()+1 );
+
+    if( aktualny.y() > docelowy.y() ) p.setY( aktualny.y()-1 );
+    else
+        if( aktualny.y() < docelowy.y() ) p.setY( aktualny.y()+1 );
+
+    return p;
 }
