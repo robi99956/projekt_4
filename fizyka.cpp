@@ -45,8 +45,7 @@ void fizyka::klatka()
 
         double nowy = klocek.bottom()+1;
 
-        if( nowy < h ) klocek.moveBottom( nowy );
-        else continue;
+        if( nowy >= h ) continue;
 
         if( czy_cos_jest(klocek, obj->wsk) ) continue;
 
@@ -54,7 +53,7 @@ void fizyka::klatka()
     }
 }
 
-bool fizyka::czy_cos_jest(QRectF obszar, QGraphicsItem *opuszczamy)
+bool fizyka::czy_cos_jest(QRectF klocek, QGraphicsItem *opuszczamy)
 {
     for( QVector<obiekt>::iterator obj=obiekty->begin(); obj != obiekty->end(); obj++ )
     {
@@ -63,13 +62,11 @@ bool fizyka::czy_cos_jest(QRectF obszar, QGraphicsItem *opuszczamy)
         QPointF pkt = obj->wsk->pos();
         QRectF bound = obj->wsk->boundingRect();
 
-        QRectF klocek( pkt, bound.size() );
+        QRectF obszar( pkt, bound.size() );
 
         if(
-                obszar.contains( klocek.topLeft() ) ||
-                obszar.contains( klocek.topRight() ) ||
-                obszar.contains( klocek.bottomLeft() ) ||
-                obszar.contains( klocek.bottomRight() )
+            klocek.left() < obszar.right() && klocek.right() > obszar.left() &&
+            klocek.bottom() >= obszar.top() && klocek.top() < obszar.bottom()
             )
             return 1;
     }
