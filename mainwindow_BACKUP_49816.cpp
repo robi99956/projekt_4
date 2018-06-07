@@ -80,15 +80,13 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 //        if( klocki[i].wsk->y() < 650 && klocki[i].wsk != robot->zlapany() )  klocki[i].wsk->setY( 650 );
     }
 
-<<<<<<< HEAD
 //    QGraphicsItem *it = s->itemAt(p2, QTransform());
 
 //    if( it == NULL ) robot->zlap(NULL);
 //    else robot->zlap(it);
-=======
     narysuj_ramie(p0,p1);
     narysuj_ramie(p1,p2);
->>>>>>> 37300d668c2387c7d451fcae67be995812970978
+
 
     s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
 
