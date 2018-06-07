@@ -1,5 +1,7 @@
 #include "fizyka.h"
 
+#include <QDebug>
+
 fizyka::fizyka(int w, int h)
 {
     this->w = w;
@@ -12,7 +14,7 @@ void fizyka::zarejestruj_obiekty(QVector<obiekt> *obiekty)
 {
     this->obiekty = obiekty;
 
-    if( obiekty != NULL ) timer.start(100);
+    if( obiekty != NULL ) timer.start(7);
     else timer.stop();
 }
 
@@ -22,7 +24,12 @@ void fizyka::klatka()
     {
         if( obj->czy_grawitacja == 1 || obj->czy_zaczepiony == 1 ) continue;
 
-        QRectF klocek = obj->wsk->boundingRect();
+        QPointF pkt = obj->wsk->pos();
+        QRectF bound = obj->wsk->boundingRect();
+
+        QRectF klocek( pkt, bound.size() );
+
+//        QRectF klocek = obj->wsk->boundingRect();
         double nowy = klocek.bottom()+1;
 
         if( nowy < h ) klocek.moveBottom( nowy );
