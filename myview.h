@@ -12,9 +12,11 @@ public:
 
     void mousePressEvent( QMouseEvent * e);
     void mouseMoveEvent( QMouseEvent * e);
+    void keyPressEvent( QKeyEvent * e);
 
 signals:
     void mysza( QPoint p );
+    void klawisz( int kod );
 };
 
 #endif // MYGRAPHICSVIEW_H

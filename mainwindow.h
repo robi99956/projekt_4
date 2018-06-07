@@ -6,6 +6,7 @@
 
 #include "myview.h"
 #include "ramie.h"
+#include "fizyka.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,10 +31,11 @@ private:
 
     QRectF rect;
 
-    QVector<QGraphicsItem*> klocki;
+    QVector<obiekt> klocki;
     QGraphicsItem * trzymany;
 
     ramie * robot;
+    fizyka * spadanie;
 };
 
 #endif // MAINWINDOW_H

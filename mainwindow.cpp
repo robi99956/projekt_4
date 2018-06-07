@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
     connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
+    connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
 
     rect = s->sceneRect();
 
@@ -33,29 +34,36 @@ MainWindow::MainWindow(QWidget *parent) :
     map = map.scaled(50, 50);
 
     QGraphicsItem * wsk;
+    obiekt obj = {NULL, 0, 0};
 
     for( int i=0; i<4; i++ )
     {
         wsk = s->addPixmap(map);
-        wsk->setPos(20+60*i, 500);
+        wsk->setPos(100+60*i, 500);
 
-        klocki.push_back(wsk);
+        obj.wsk = wsk;
+
+        klocki.push_back(obj);
     }
 
     trzymany = NULL;
+
+    spadanie = new fizyka(0, scena->height() );
+    spadanie->zarejestruj_obiekty( &klocki );
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete scena;
+    delete spadanie;
 }
 
 void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 {
     for( int i=0; i<klocki.size(); i++ )
     {
-        s->removeItem( klocki[i] );
+        s->removeItem( klocki[i].wsk );
     }
 
     s->clear();
@@ -63,8 +71,14 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     for( int i=0; i<klocki.size(); i++ )
     {
-        s->addItem( klocki[i] );
+        s->addItem( klocki[i].wsk );
+//        if( klocki[i].wsk->y() < 650 && klocki[i].wsk != robot->zlapany() )  klocki[i].wsk->setY( 650 );
     }
+
+//    QGraphicsItem *it = s->itemAt(p2, QTransform());
+
+//    if( it == NULL ) robot->zlap(NULL);
+//    else robot->zlap(it);
 
     s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
     s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );

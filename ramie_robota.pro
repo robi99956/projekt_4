@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     myview.cpp \
     kinematyka.cpp \
-    ramie.cpp
+    ramie.cpp \
+    fizyka.cpp
 
 HEADERS += \
         mainwindow.h \
     myview.h \
     kinematyka.h \
-    ramie.h
+    ramie.h \
+    fizyka.h
 
 FORMS += \
         mainwindow.ui
