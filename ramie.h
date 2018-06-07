@@ -9,7 +9,7 @@ class ramie : public QObject
     Q_OBJECT
 
 public:
-    ramie( uint16_t l1, uint16_t l2, QPoint poczatek );
+    ramie( int l1, int l2, QPoint poczatek );
     ~ramie( void );
 
 signals:

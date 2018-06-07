@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 
 #include "myview.h"
+#include "ramie.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void rysuj( QPoint punkt );
+    void rysuj( QPoint p0, QPoint p1, QPoint p2 );
 
 private:
     Ui::MainWindow *ui;
@@ -31,6 +32,8 @@ private:
 
     QVector<QGraphicsItem*> klocki;
     QGraphicsItem * trzymany;
+
+    ramie * robot;
 };
 
 #endif // MAINWINDOW_H

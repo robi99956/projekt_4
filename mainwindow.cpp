@@ -3,9 +3,6 @@
 #include <QDebug>
 #include <QGraphicsItem>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #include "kinematyka.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -25,7 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     s = new QGraphicsScene(0, 0, scena->width(), scena->height());
     scena->setScene(s);
 
-    connect(scena, SIGNAL(mysza(QPoint)), this, SLOT(rysuj(QPoint)));
+    robot = new ramie(200, 200, QPoint( scena->width()/2, scena->height()/2) );
+
+    connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
+    connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
 
     rect = s->sceneRect();
 
@@ -51,18 +51,8 @@ MainWindow::~MainWindow()
     delete scena;
 }
 
-void MainWindow::rysuj(QPoint punkt)
+void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 {
-    int w = scena->width()/2;
-    int h = scena->height()/2;
-    kinematyka k(200, 200, QPoint(w, h) );
-
-    if( trzymany ) trzymany->setPos( punkt.x(), punkt.y() );
-
-    QPoint p = k.przelicz(punkt);
-
-    if( p.x() == 0 && p.y() == 0 ) return;
-
     for( int i=0; i<klocki.size(); i++ )
     {
         s->removeItem( klocki[i] );
@@ -71,22 +61,11 @@ void MainWindow::rysuj(QPoint punkt)
     s->clear();
     s->setSceneRect(rect);
 
-    int x1 = p.x();
-    int y1 = p.y();
-
-    s->addLine(w, h, w+x1, h-y1);
-    s->addLine(w+x1, h-y1, punkt.x(), punkt.y());
-
     for( int i=0; i<klocki.size(); i++ )
     {
         s->addItem( klocki[i] );
     }
 
-
-    QGraphicsItem * it = s->itemAt(punkt, QTransform());
-
-    if( it->pos().isNull() == 0 )
-    {
-        if( trzymany == NULL ) trzymany = it;
-    }
+    s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
+    s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
 }
