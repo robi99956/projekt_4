@@ -16,7 +16,8 @@ void ramie::zlap(QGraphicsItem *klocek)
 {
     if( (klocek == NULL && trzymany != NULL) || (klocek != NULL && trzymany == NULL) )  
     {
-        if( klocek->pos() == QPointF(0,0) ) return;
+        QSizeF rozmiar = klocek->boundingRect().size();
+        if( rozmiar.width() > 100 || rozmiar.height() > 100 ) return;
 
         trzymany = klocek;
         emit zlapal(klocek);
@@ -53,7 +54,6 @@ void ramie::KeyEvent(int kod)
 
 void ramie::animacja()
 {
-    qDebug() << aktualny << docelowy;
     if( aktualny == docelowy ) return;
 
     p2 = aktualny = wyznacz_kolejny();
