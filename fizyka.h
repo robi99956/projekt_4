@@ -27,7 +27,7 @@ private slots:
     void klatka( void );
 
 private:
-    bool czy_cos_jest( QRectF obszar, QGraphicsItem *opuszczamy );
+    bool czy_cos_jest(QRectF klocek, QGraphicsItem *opuszczamy );
 
     QVector< obiekt > *obiekty;
     int w, h;
