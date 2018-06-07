@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void narysuj_ramie(QPoint p0, QPoint p1);
     ~MainWindow();
 
 private slots:
@@ -32,6 +33,9 @@ private:
 
     QVector<QGraphicsItem*> klocki;
     QGraphicsItem * trzymany;
+
+    QPixmap bck;
+    QPixmap nju;
 
     ramie * robot;
 };
