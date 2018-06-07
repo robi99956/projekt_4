@@ -1,9 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QGraphicsItem>
 
 #define _USE_MATH_DEFINES
-#include "math.h"
+#include <math.h>
+
+#include "kinematyka.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     scena = new myGraphicsView;
-    scena->setGeometry( 25, 25, 500, 500 );
+    scena->setGeometry( 25, 25, 800, 800 );
     scena->setParent(this);
     scena->show();
 
@@ -25,6 +28,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(scena, SIGNAL(mysza(QPoint)), this, SLOT(rysuj(QPoint)));
 
     rect = s->sceneRect();
+
+    QPixmap map(":/kw.png");
+    map = map.scaled(50, 50);
+
+    QGraphicsItem * wsk;
+
+    for( int i=0; i<4; i++ )
+    {
+        wsk = s->addPixmap(map);
+        wsk->setPos(20+60*i, 500);
+
+        klocki.push_back(wsk);
+    }
+
+    trzymany = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -35,28 +53,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::rysuj(QPoint punkt)
 {
-    s->clear();
-    s->setSceneRect( rect );
-
     int w = scena->width()/2;
     int h = scena->height()/2;
-    punkt.setX( punkt.x() - w );
-    punkt.setY( h - punkt.y() );
+    kinematyka k(200, 200, QPoint(w, h) );
 
-    int l0 = 200;
-    int l1 = 200;
-    int x = punkt.x();
-    int y = punkt.y();
+    if( trzymany ) trzymany->setPos( punkt.x(), punkt.y() );
 
-    double d = sqrt( x*x+y*y);
+    QPoint p = k.przelicz(punkt);
 
-    double alfa = atan2(y, x);
-    double beta = acos( (l1*l1-l0*l0+d*d)/(2*d*l1) );
-    double fi = M_PI*3/2 - beta-alfa;
+    if( p.x() == 0 && p.y() == 0 ) return;
 
-    int x1 = x+ l1*cos(fi);
-    int y1 = y+ l1*sin(fi);
+    for( int i=0; i<klocki.size(); i++ )
+    {
+        s->removeItem( klocki[i] );
+    }
+
+    s->clear();
+    s->setSceneRect(rect);
+
+    int x1 = p.x();
+    int y1 = p.y();
 
     s->addLine(w, h, w+x1, h-y1);
-    s->addLine(w+x1, h-y1, w+x, h-y);
+    s->addLine(w+x1, h-y1, punkt.x(), punkt.y());
+
+    for( int i=0; i<klocki.size(); i++ )
+    {
+        s->addItem( klocki[i] );
+    }
+
+
+    QGraphicsItem * it = s->itemAt(punkt, QTransform());
+
+    if( it->pos().isNull() == 0 )
+    {
+        if( trzymany == NULL ) trzymany = it;
+    }
 }

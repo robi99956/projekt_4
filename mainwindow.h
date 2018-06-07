@@ -28,6 +28,9 @@ private:
     QGraphicsScene *s;
 
     QRectF rect;
+
+    QVector<QGraphicsItem*> klocki;
+    QGraphicsItem * trzymany;
 };
 
 #endif // MAINWINDOW_H

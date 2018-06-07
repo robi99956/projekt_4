@@ -26,11 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    myview.cpp
+    myview.cpp \
+    kinematyka.cpp \
+    ramie.cpp
 
 HEADERS += \
         mainwindow.h \
-    myview.h
+    myview.h \
+    kinematyka.h \
+    ramie.h
 
 FORMS += \
         mainwindow.ui
+
+RESOURCES += rsc.qrc
