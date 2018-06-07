@@ -24,6 +24,8 @@ public:
 private slots:
     void rysuj( QPoint p0, QPoint p1, QPoint p2 );
 
+    void on_horizontalSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
     myGraphicsView * scena;

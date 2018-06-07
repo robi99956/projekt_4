@@ -35,11 +35,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap map(":/kw.png");
     QPixmap polka(":/polka.png");
     QPixmap szafka(":/szafka_mala.png");
-
     map = map.scaled(50, 50);
 
-    bck.load(":/tlo.png");
-    nju = bck.scaled(s->width(),s->height());
+
+    //--------widgety z ui-------------
+    ui->horizontalSlider->setMaximum(30);
+    ui->horizontalSlider->setMinimum(4);
+
+
+  //  bck.load(":/tlo.png");
+  //  nju = bck.scaled(s->width(),s->height());
 
 
     QGraphicsItem * wsk;
@@ -51,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent) :
         wsk->setPos(100+60*i, 500);
 
         obj.wsk = wsk;
-
         klocki.push_back(obj);
     }
 
@@ -62,7 +66,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ikea.wsk = wsk;
     klocki.push_back(ikea);
 
-    qDebug()<<"rozmiar szafki"<<szafka.size();
     QPixmap reszafka = szafka.scaled(270,250);
     wsk = s->addPixmap(reszafka);
     wsk->setPos(25,550);
@@ -90,7 +93,7 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     s->clear();
     s->setSceneRect(rect);
-    s->addPixmap(nju);
+  //  s->addPixmap(nju);
 
     for( int i=0; i<klocki.size(); i++ )
     {
@@ -136,4 +139,9 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
     angle = qRadiansToDegrees(angle);
     reka->setRotation(angle);
     s->addItem(reka);
+}
+
+void MainWindow::on_horizontalSlider_sliderMoved(int position)
+{
+    ui->speed_label->setText(QString::number(position));
 }
