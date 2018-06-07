@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     rect = s->sceneRect();
 
     QPixmap map(":/kw.png");
+    QPixmap polka(":/polka.png");
+    QPixmap szafka(":/szafka_mala.png");
+
     map = map.scaled(50, 50);
 
     bck.load(":/tlo.png");
@@ -51,6 +54,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
         klocki.push_back(obj);
     }
+
+    obiekt ikea = {NULL, 0 , 0 };
+    QPixmap repolka = polka.scaled(350,polka.height()/2);
+    wsk = s->addPixmap(repolka);
+    wsk->setPos(450,400);
+    ikea.wsk = wsk;
+    klocki.push_back(ikea);
+
+    qDebug()<<"rozmiar szafki"<<szafka.size();
+    QPixmap reszafka = szafka.scaled(270,250);
+    wsk = s->addPixmap(reszafka);
+    wsk->setPos(25,550);
+    ikea.wsk = wsk;
+    klocki.push_back(ikea);
+
 
     trzymany = NULL;
     spadanie->zarejestruj_obiekty( &klocki );

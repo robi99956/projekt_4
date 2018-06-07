@@ -33,6 +33,7 @@ private:
     QRectF rect;
 
     QVector<obiekt> klocki;
+    QVector<obiekt> meble;
     QGraphicsItem * trzymany;
 
     QPixmap bck;
