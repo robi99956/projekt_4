@@ -33,11 +33,8 @@ void ramie::ustaw(QPoint p)
     p1.setX( p1.x() + p0.x() );
     p1.setY( p0.y() - p1.y() );
 
-<<<<<<< HEAD
     if( trzymany ) trzymany->setPos( p );
     p2 = p;
-=======
->>>>>>> 37300d668c2387c7d451fcae67be995812970978
 
     emit rysuj(p0, p1, p);
 }
