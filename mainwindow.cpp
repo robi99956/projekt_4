@@ -32,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap map(":/kw.png");
     map = map.scaled(50, 50);
 
+    bck.load(":/tlo.png");
+    nju = bck.scaled(s->width(),s->height());
+
+
     QGraphicsItem * wsk;
 
     for( int i=0; i<4; i++ )
@@ -60,12 +64,46 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     s->clear();
     s->setSceneRect(rect);
+    s->addPixmap(nju);
 
     for( int i=0; i<klocki.size(); i++ )
     {
         s->addItem( klocki[i] );
     }
 
+    narysuj_ramie(p0,p1);
+    narysuj_ramie(p1,p2);
+
     s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
+
     s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
+}
+
+
+void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
+{
+
+    int dl_modul = sqrt( (p1.y()-p0.y())*(p1.y()-p0.y()) + (p1.x() - p0.x()) * (p1.x() - p0.x()));
+    QPixmap modul(":/modul.png");
+
+    QSize wymiar ( dl_modul+40, modul.height());
+
+    QPixmap modul2 =  modul.scaled(wymiar,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    QGraphicsPixmapItem *reka = new QGraphicsPixmapItem (modul2);
+
+    QPoint movedp0;
+    movedp0 = p0;
+
+    int dx = modul.width()/6;
+    int dy = modul.height()/2;
+    movedp0.setY(p0.y()-dy);
+    movedp0.setX(p0.x()-dx);
+
+    reka->setPos(movedp0);
+    reka->setTransformOriginPoint(dx,dy);
+    double angle;
+    angle = atan2(p1.y()-p0.y(),p1.x()-p0.x());
+    angle = qRadiansToDegrees(angle);
+    reka->setRotation(angle);
+    s->addItem(reka);
 }

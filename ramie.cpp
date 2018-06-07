@@ -15,8 +15,11 @@ void ramie::ustaw(QPoint p)
 {
     p1 = k->przelicz(p);
 
+    if( p1.isNull() ) return;
+
     p1.setX( p1.x() + p0.x() );
     p1.setY( p0.y() - p1.y() );
+
 
     emit rysuj(p0, p1, p);
 }
