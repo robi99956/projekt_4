@@ -22,6 +22,7 @@ signals:
     void rysuj( QPoint p0, QPoint p1, QPoint p2 );
 
     void zlapal( QGraphicsItem * klocek );
+    void nagrywanie();  //odsyłacz do qLabela na ui
 
 public slots:
     void ustaw( QPoint p );
@@ -41,6 +42,12 @@ private:
     // do animacji - usuwanie teleportowania ramienia po kliknięciu gdzieś dalej
     QPoint aktualny, docelowy;
     QTimer timer;
+
+    //------nagrywanie
+    int kamera = -1 ;  //-1  nie nagrywa, 1 nagrywa
+    QVector<QPoint> ruch_robota;
+
 };
+
 
 #endif // RAMIE_H

@@ -50,6 +50,12 @@ void ramie::KeyEvent(int kod)
         emit zlapal(NULL);
         emit rysuj(p0, p1, p2);
     }
+
+    if (kod == Qt::Key_R)
+    {
+        emit nagrywanie();
+        qDebug()<<aktualny;
+    }
 }
 
 void ramie::animacja()

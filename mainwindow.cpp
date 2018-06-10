@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
     connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
 
+    //----nagrywanie pod r
+    connect(robot,SIGNAL(nagrywanie()),this,SLOT(nagraj()));
+
     rect = s->sceneRect();
 
     QPixmap map(":/kw.png");
@@ -144,4 +147,24 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
     ui->speed_label->setText(QString::number(position));
+}
+
+void MainWindow::nagraj()
+{
+    // 1 nagrywa, -1 nie nagrywa
+        rec *= -1 ;
+        qDebug()<<rec;
+
+        if(rec == 1)
+        {
+            ui->rec_info->setText("Nagrywanie ekranu");
+        }
+        else
+        {
+            ui->rec_info->setText("Gotowe do otworzenia");
+            //zamraża myszkę i klawiaturę podczas odtwarzania
+//            scena->setEnabled(false);
+//            scena->setEnabled(true);
+        }
+
 }

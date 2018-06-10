@@ -25,6 +25,7 @@ private slots:
     void rysuj( QPoint p0, QPoint p1, QPoint p2 );
 
     void on_horizontalSlider_sliderMoved(int position);
+    void nagraj();
 
 private:
     Ui::MainWindow *ui;
@@ -43,6 +44,8 @@ private:
 
     ramie * robot;
     fizyka * spadanie;
+
+    int rec = -1;
 };
 
 #endif // MAINWINDOW_H

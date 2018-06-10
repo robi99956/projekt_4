@@ -18,5 +18,7 @@ void myGraphicsView::mouseMoveEvent(QMouseEvent *e)
 
 void myGraphicsView::keyPressEvent(QKeyEvent *e)
 {
+
     emit klawisz( e->key() );
+
 }
