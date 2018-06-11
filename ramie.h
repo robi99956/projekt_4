@@ -17,6 +17,7 @@ public:
     ramie( int l1, int l2, QPoint poczatek );
     void zlap( QGraphicsItem * klocek );
     QGraphicsItem * zlapany( void );
+    void odtworz( int numer );
 
     ~ramie( void );
 
@@ -28,10 +29,13 @@ signals:
 
 public slots:
     void ustaw( QPoint p );
+    void ustaw_bez_animacji(void );
     void KeyEvent( int kod );
+    void ustaw_czas_odtwarzania( int czas );
 
 private slots:
     void animacja( void );
+    void odtwarzanie( void );
 
 private:
     QPoint wyznacz_kolejny( void );
@@ -46,10 +50,12 @@ private:
     QTimer timer;
 
     //------nagrywanie
-    int kamera = -1 ;  //-1  nie nagrywa, 1 nagrywa
-    przebieg ruch_robota;
-    QVector<przebieg> zbior_przebiegow;
+    QTimer timer_odtwarzania;
 
+    int kamera = -1 ;  //-1  nie nagrywa, 1 nagrywa
+    przebieg *ruch_robota;
+    QVector<przebieg*> zbior_przebiegow;
+    int nr_przebiegu, nr_probki;
 };
 
 

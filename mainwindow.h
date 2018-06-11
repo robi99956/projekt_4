@@ -27,6 +27,8 @@ private slots:
     void on_horizontalSlider_sliderMoved(int position);
     void nagraj(int stan);
 
+    void on_rec_play_clicked();
+
 private:
     Ui::MainWindow *ui;
     myGraphicsView * scena;

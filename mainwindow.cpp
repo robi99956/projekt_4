@@ -171,3 +171,8 @@ void MainWindow::nagraj(int stan)
         }
 
 }
+
+void MainWindow::on_rec_play_clicked()
+{
+    robot->odtworz(0);
+}
