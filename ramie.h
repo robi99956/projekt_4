@@ -18,6 +18,8 @@ public:
     void zlap( QGraphicsItem * klocek );
     QGraphicsItem * zlapany( void );
 
+    void odtwarzanie(int ktory);
+
     ~ramie( void );
 
 signals:
@@ -25,6 +27,7 @@ signals:
 
     void zlapal( QGraphicsItem * klocek );
     void nagrywanie(int stan);  //odsyłacz do qLabela na ui
+
 
 public slots:
     void ustaw( QPoint p );

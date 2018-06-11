@@ -82,17 +82,6 @@ void ramie::KeyEvent(int kod)
             ruch_robota.clear();
             qDebug()<<aktualny;
         }
-        else
-        {
-            zbior_przebiegow.push_back(ruch_robota);
-//            qDebug()<<"-------------------";
-
-//            for(int i = 0 ; i < ruch_robota.size() ; i++)
-//            qDebug()<<ruch_robota[i];
-            odtwarzanie(0);
-
-        }
-
     }
 }
 
