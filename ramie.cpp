@@ -45,6 +45,24 @@ void ramie::odtworz(int numer)
     }
 }
 
+//void ramie::odtwarzanie(int ktory)
+//{
+//    for(int i = 0; i < zbior_przebiegow[ktory].size(); i++)
+//    {
+//        aktualny = zbior_przebiegow[ktory][i];
+
+//        p2 = aktualny = wyznacz_kolejny();
+//        p1 = k->przelicz(p2);
+
+//        if( p1.isNull() ) return;
+
+//        p1.setX( p1.x() + p0.x() );
+//        p1.setY( p0.y() - p1.y() );
+
+//        emit rysuj(p0, p1, p2);
+//    }
+//}
+
 ramie::~ramie()
 {
     delete k;
@@ -78,6 +96,8 @@ void ramie::KeyEvent(int kod)
 {
     if( kod == Qt::Key_Space )
     {
+        if( trzymany == NULL ) return;
+
         trzymany->moveBy(0, 1);
 
         trzymany = NULL;
@@ -90,11 +110,25 @@ void ramie::KeyEvent(int kod)
     {
         kamera*= -1;
         emit nagrywanie(kamera);
+
         if(kamera == 1)
         {
             ruch_robota = new przebieg;
             qDebug()<<aktualny;
+//<<<<<<< HEAD
+//=======
         }
+//        else
+//        {
+//            zbior_przebiegow.push_back(ruch_robota);
+////            qDebug()<<"-------------------";
+
+////            for(int i = 0 ; i < ruch_robota.size() ; i++)
+////            qDebug()<<ruch_robota[i];
+//            odtwarzanie(0);
+
+//>>>>>>> 6487cf49d4bc4c8a39cf05d70b88a25901f9ced6
+//        }
         else
             zbior_przebiegow.push_back( ruch_robota );
 
@@ -153,3 +187,4 @@ QPoint ramie::wyznacz_kolejny()
 
     return p;
 }
+
