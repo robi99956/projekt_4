@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
 
     //----nagrywanie pod r
-    connect(robot,SIGNAL(nagrywanie()),this,SLOT(nagraj()));
+    connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
 
     rect = s->sceneRect();
 
@@ -78,6 +78,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     trzymany = NULL;
     spadanie->zarejestruj_obiekty( &klocki );
+
+
+
+    //------lista przebiegow
+
 }
 
 MainWindow::~MainWindow()
@@ -149,13 +154,11 @@ void MainWindow::on_horizontalSlider_sliderMoved(int position)
     ui->speed_label->setText(QString::number(position));
 }
 
-void MainWindow::nagraj()
+void MainWindow::nagraj(int stan)
 {
     // 1 nagrywa, -1 nie nagrywa
-        rec *= -1 ;
-        qDebug()<<rec;
 
-        if(rec == 1)
+        if(stan == 1)
         {
             ui->rec_info->setText("Nagrywanie ekranu");
         }

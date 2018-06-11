@@ -53,8 +53,15 @@ void ramie::KeyEvent(int kod)
 
     if (kod == Qt::Key_R)
     {
-        emit nagrywanie();
-        qDebug()<<aktualny;
+        kamera*= -1;
+        emit nagrywanie(kamera);
+        if(kamera == 1)
+        {
+            ruch_robota.clear();
+            qDebug()<<aktualny;
+
+        }
+
     }
 }
 
@@ -73,6 +80,13 @@ void ramie::animacja()
     if( trzymany ) trzymany->setPos( p2 );
 
     emit rysuj(p0, p1, p2);
+
+    //-----do nagrywania
+    qDebug()<<aktualny;
+    if(kamera == 1)
+    {
+    ruch_robota.append(aktualny);
+    }
 }
 
 QPoint ramie::wyznacz_kolejny()

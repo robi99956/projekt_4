@@ -27,6 +27,16 @@
      <string>Nagrywanie ruchów ramienia robota</string>
     </property>
    </widget>
+   <widget class="QListView" name="przebiegi">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>410</y>
+      <width>331</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
