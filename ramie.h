@@ -21,6 +21,8 @@ public:
 
 //    void odtwarzanie(int ktory);
 
+    void odtwarzanie(int ktory);
+
     ~ramie( void );
 
 signals:
