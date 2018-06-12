@@ -47,9 +47,9 @@ void ramie::odtworz(int numer)
 
 void ramie::odtwarzanie(int ktory)
 {
-    for(int i = 0; i < zbior_przebiegow[ktory].size(); i++)
+    for(int i = 0; i < zbior_przebiegow[ktory]->size(); i++)
     {
-        aktualny = zbior_przebiegow[ktory][i];
+        aktualny = zbior_przebiegow[ktory]->at(i);
 
         p2 = aktualny = wyznacz_kolejny();
         p1 = k->przelicz(p2);
@@ -115,13 +115,10 @@ void ramie::KeyEvent(int kod)
         if(kamera == 1)
         {
             ruch_robota = new przebieg;
-            qDebug()<<aktualny;
-
         }
 
         else
             zbior_przebiegow.push_back( ruch_robota );
-
     }
 }
 
@@ -138,8 +135,6 @@ void ramie::animacja()
 
     ustaw_bez_animacji();
 
-    //-----do nagrywania
-//    qDebug()<<aktualny;
     if(kamera == 1)
     {
         ruch_robota->append(aktualny);

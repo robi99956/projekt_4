@@ -80,8 +80,15 @@ MainWindow::MainWindow(QWidget *parent) :
     spadanie->zarejestruj_obiekty( &klocki );
 
 
+    //------qlabel colors
+    ui->rec_info->setAutoFillBackground(true);
+    kol_green = ui->rec_info->palette();
+    kol_red = ui->rec_info->palette();
+    kol_blue = ui->rec_info->palette();
+    kol_green.setColor(QPalette::Window, QColor(Qt::green));
+    kol_red.setColor(QPalette::Window, QColor(Qt::red));
+    kol_blue.setColor(QPalette::Window, QColor::fromRgb(51,255,255));
 
-    //------lista przebiegow
 
 }
 
@@ -161,18 +168,26 @@ void MainWindow::nagraj(int stan)
         if(stan == 1)
         {
             ui->rec_info->setText("Nagrywanie ekranu");
+            ui->rec_info->setPalette(kol_red);
+
         }
         else
         {
+            ui->list_przebiegow->addItem("Nagranie nr. " + QString::number(total_records));
+            total_records++;
             ui->rec_info->setText("Gotowe do otworzenia");
-            //zamraża myszkę i klawiaturę podczas odtwarzania
-//            scena->setEnabled(false);
-//            scena->setEnabled(true);
+            ui->rec_info->setPalette(kol_green);
         }
 
 }
 
 void MainWindow::on_rec_play_clicked()
 {
+    ui->rec_info->setText("Odtwarzanie...");
+    ui->rec_info->setPalette(kol_blue);
+    int pos = ui->list_przebiegow->currentRow();
+    if(pos<0)
     robot->odtworz(0);
+    else
+    robot->odtworz(pos);
 }
