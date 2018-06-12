@@ -159,7 +159,10 @@ void ramie::odtwarzanie()
             ustaw_bez_animacji();
         }
         else
+        {
             timer_odtwarzania.stop();
+            emit koniec_odtwarzania();
+        }
     }
 }
 

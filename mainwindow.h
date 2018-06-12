@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QListWidgetItem>
 
 #include "myview.h"
 #include "ramie.h"
@@ -29,6 +30,10 @@ private slots:
 
     void on_rec_play_clicked();
 
+    void on_list_przebiegow_itemDoubleClicked(QListWidgetItem *item);
+
+    void koniec_odtwarzania( void );
+
 private:
     Ui::MainWindow *ui;
     myGraphicsView * scena;
@@ -51,6 +56,9 @@ private:
     QPalette kol_green;
     QPalette kol_blue;
 
+    enum status_nagrywania{NAGRYWANIE, ODTWARZANIE, GOTOWY};
+
+    void zmien_napis_statusu( status_nagrywania status );
 };
 
 #endif // MAINWINDOW_H

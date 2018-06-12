@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
     connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
 
+    connect(robot, SIGNAL(koniec_odtwarzania()), this, SLOT(koniec_odtwarzania()));
+
     //----nagrywanie pod r
     connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
 
@@ -167,27 +169,54 @@ void MainWindow::nagraj(int stan)
 
         if(stan == 1)
         {
-            ui->rec_info->setText("Nagrywanie ekranu");
-            ui->rec_info->setPalette(kol_red);
-
+            zmien_napis_statusu(NAGRYWANIE);
         }
         else
         {
-
             ui->list_przebiegow->addItem("Nagranie nr " + QString::number(robot->getRamieLastId()));
-            ui->rec_info->setText("Gotowe do otworzenia");
-            ui->rec_info->setPalette(kol_green);
+            zmien_napis_statusu( GOTOWY );
         }
 
 }
 
 void MainWindow::on_rec_play_clicked()
 {
-    ui->rec_info->setText("Odtwarzanie...");
-    ui->rec_info->setPalette(kol_blue);
+    zmien_napis_statusu( ODTWARZANIE );
     int pos = ui->list_przebiegow->currentRow();
     if(pos<0)
     robot->odtworz(0);
     else
     robot->odtworz(pos);
+}
+
+void MainWindow::on_list_przebiegow_itemDoubleClicked(QListWidgetItem *item)
+{
+    (void)item;
+    on_rec_play_clicked();
+}
+
+void MainWindow::koniec_odtwarzania()
+{
+    zmien_napis_statusu( GOTOWY );
+}
+
+void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
+{
+    switch( status )
+    {
+    case ODTWARZANIE:
+        ui->rec_info->setText("Odtwarzanie...");
+        ui->rec_info->setPalette(kol_blue);
+        break;
+
+    case GOTOWY:
+        ui->rec_info->setText("Gotowe do otworzenia");
+        ui->rec_info->setPalette(kol_green);
+        break;
+
+    case NAGRYWANIE:
+        ui->rec_info->setText("Nagrywanie ekranu");
+        ui->rec_info->setPalette(kol_red);
+        break;
+    }
 }

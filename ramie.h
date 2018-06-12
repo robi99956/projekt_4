@@ -31,6 +31,7 @@ signals:
 
     void zlapal( QGraphicsItem * klocek );
     void nagrywanie(int stan);  //odsyłacz do qLabela na ui
+    void koniec_odtwarzania( void );
 
 
 public slots:
