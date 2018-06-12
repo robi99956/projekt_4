@@ -47,7 +47,6 @@ private:
     ramie * robot;
     fizyka * spadanie;
 
-    int total_records = 0;
     QPalette kol_red;
     QPalette kol_green;
     QPalette kol_blue;

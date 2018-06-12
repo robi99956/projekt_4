@@ -173,8 +173,8 @@ void MainWindow::nagraj(int stan)
         }
         else
         {
-            ui->list_przebiegow->addItem("Nagranie nr. " + QString::number(total_records));
-            total_records++;
+
+            ui->list_przebiegow->addItem("Nagranie nr " + QString::number(robot->getRamieLastId()));
             ui->rec_info->setText("Gotowe do otworzenia");
             ui->rec_info->setPalette(kol_green);
         }

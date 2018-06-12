@@ -64,6 +64,11 @@ void ramie::odtwarzanie(int ktory)
     }
 }
 
+int ramie::getRamieLastId()
+{
+    return zbior_przebiegow.size();
+}
+
 ramie::~ramie()
 {
     delete k;

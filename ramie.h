@@ -22,6 +22,7 @@ public:
 //    void odtwarzanie(int ktory);
 
     void odtwarzanie(int ktory);
+    int getRamieLastId();
 
     ~ramie( void );
 
