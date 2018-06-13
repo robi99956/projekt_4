@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     timer_zegarka.start(500);
 
-    robot->dodaj_strefe_zakazana( QRect( 0, 165, 235, 145) );
+    robot->dodaj_strefe_zakazana( QRect( 0, 0, 235, 310) );
 }
 
 MainWindow::~MainWindow()
