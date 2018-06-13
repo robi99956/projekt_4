@@ -85,13 +85,6 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     narysuj_ramie(p0,p1);
     narysuj_ramie(p1,p2);
-<<<<<<< HEAD
-=======
-
-//   s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
-
-//   s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
->>>>>>> f7c52ff61243a7f065c8f2d40b664b3d76dc61aa
 }
 
 
