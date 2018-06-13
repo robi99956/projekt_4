@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
+    s->addItem(tlo);
 
     dodaj_obiekty_fizyczne();
     wstepne_kolory_labeli();
