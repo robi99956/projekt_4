@@ -4,6 +4,8 @@
 #include <QGraphicsItem>
 #include <QTime>
 
+#include <qmath.h>
+
 #include "kinematyka.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -45,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     spadanie->zarejestruj_obiekty( &klocki );
 
     robot->ustaw( QPoint( scena->width()/2-100, scena->height()/2-200 ) );
+
+    timer_zegarka.start(500);
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +68,9 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
     s->clear();
     s->setSceneRect(rect);
     s->addPixmap(tlo);
+
+    godz = min = sec = NULL;
+    rysuj_wskazowki();
 
     for( int i=0; i<klocki.size(); i++ )
     {
@@ -153,6 +160,48 @@ void MainWindow::koniec_odtwarzania()
     zmien_napis_statusu( GOTOWY );
 }
 
+QGraphicsItem * MainWindow::rysuj_wskazowke(QColor kolor, int max, double wartosc, int dlugosc)
+{
+    int x = 160,  y = 236; // środek tarczy zegara
+
+    if( wartosc > max ) wartosc -= max;
+
+    wartosc -= max/4; // 0 musi być z prawej
+
+    double kat = 2*M_PI - (wartosc/max)*2*M_PI;
+
+    int x_k = x + dlugosc*cos(kat);
+    int y_k = y - dlugosc*sin(kat);
+
+    QPen pen(kolor);
+    pen.setWidth(2);
+
+    QGraphicsItem *w = s->addLine(x, y, x_k, y_k, pen );
+
+    return w;
+}
+
+void MainWindow::usun_wskazowke(QGraphicsItem *w)
+{
+    if( w != NULL )
+    {
+        s->removeItem( w );
+        delete w;
+        w = NULL;
+    }
+}
+
+void MainWindow::rysuj_wskazowki()
+{
+    QTime czas = QTime::currentTime();
+
+    usun_wskazowke(godz); usun_wskazowke(min); usun_wskazowke(sec);
+
+    godz = rysuj_wskazowke( Qt::black, 12, czas.hour() + czas.minute()/60.0, 30 );
+    min = rysuj_wskazowke( Qt::green, 60, czas.minute() + czas.second()/60.0, 40 );
+    sec = rysuj_wskazowke( Qt::blue, 60, czas.second(), 50 );
+}
+
 void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
 {
     switch( status )
@@ -232,4 +281,6 @@ void MainWindow::polacz_sygnaly()
 
     //----nagrywanie pod r
     connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
+
+    connect(&timer_zegarka, SIGNAL(timeout()), this, SLOT(rysuj_wskazowki()));
 }
