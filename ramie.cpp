@@ -45,6 +45,11 @@ void ramie::odtworz(int numer)
     }
 }
 
+void ramie::dodaj_strefe_zakazana(QRect strefa)
+{
+    zakazane.push_back( strefa );
+}
+
 void ramie::odtwarzanie(int ktory)
 {
     for(int i = 0; i < zbior_przebiegow[ktory]->size(); i++)
@@ -108,8 +113,8 @@ void ramie::KeyEvent(int kod)
 
         trzymany = NULL;
 
+//        emit rysuj(p0, p1, p2);
         emit zlapal(NULL);
-        emit rysuj(p0, p1, p2);
     }
 
     if (kod == Qt::Key_R)
@@ -178,6 +183,18 @@ QPoint ramie::wyznacz_kolejny()
     else
         if( aktualny.y() < docelowy.y() ) p.setY( aktualny.y()+1 );
 
+    if( czy_moge_tam_isc(p) == 0 ) return aktualny;
+
     return p;
+}
+
+bool ramie::czy_moge_tam_isc(QPoint p)
+{
+    for( QVector<QRect>::iterator strefa=zakazane.begin(); strefa != zakazane.end(); strefa++ )
+    {
+        if( strefa->contains( p ) ) return 0;
+    }
+
+    return 1;
 }
 

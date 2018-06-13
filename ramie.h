@@ -19,7 +19,7 @@ public:
     QGraphicsItem * zlapany( void );
     void odtworz( int numer );
 
-//    void odtwarzanie(int ktory);
+    void dodaj_strefe_zakazana( QRect strefa );
 
     void odtwarzanie(int ktory);
     int getRamieLastId();
@@ -46,6 +46,7 @@ private slots:
 
 private:
     QPoint wyznacz_kolejny( void );
+    bool czy_moge_tam_isc( QPoint p );
 
     kinematyka * k;
     QPoint p1, p0, p2;
@@ -63,6 +64,8 @@ private:
     przebieg *ruch_robota;
     QVector<przebieg*> zbior_przebiegow;
     int nr_przebiegu, nr_probki;
+
+    QVector< QRect > zakazane;
 };
 
 

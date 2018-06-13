@@ -70,13 +70,14 @@ MainWindow::MainWindow(QWidget *parent) :
     wsk->setPos(450,400);
     ikea.wsk = wsk;
     klocki.push_back(ikea);
+    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
 
     QPixmap reszafka = szafka.scaled(270,250);
     wsk = s->addPixmap(reszafka);
     wsk->setPos(25,550);
     ikea.wsk = wsk;
     klocki.push_back(ikea);
-
+    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
 
     trzymany = NULL;
     spadanie->zarejestruj_obiekty( &klocki );
@@ -91,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     kol_red.setColor(QPalette::Window, QColor(Qt::red));
     kol_blue.setColor(QPalette::Window, QColor::fromRgb(51,255,255));
 
-
+    robot->ustaw( QPoint( scena->width()/2-100, scena->height()/2-200 ) );
 }
 
 MainWindow::~MainWindow()
