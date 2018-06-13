@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
-    s->addItem(tlo);
+
 
     dodaj_obiekty_fizyczne();
     wstepne_kolory_labeli();
@@ -85,9 +85,9 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
     narysuj_ramie(p0,p1);
     narysuj_ramie(p1,p2);
 
-    s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
+   s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
 
-    s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
+   s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
 }
 
 
@@ -96,19 +96,20 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 
     int dl_modul = sqrt( (p1.y()-p0.y())*(p1.y()-p0.y()) + (p1.x() - p0.x()) * (p1.x() - p0.x()));
     QPixmap modul(":/modul.png");
-
-    QSize wymiar ( dl_modul+40, modul.height());
-
-    QPixmap modul2 =  modul.scaled(wymiar,Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    QGraphicsPixmapItem *reka = new QGraphicsPixmapItem (modul2);
-
     QPoint movedp0;
-    movedp0 = p0;
 
-    int dx = modul.width()/6;
-    int dy = modul.height()/2;
+    qDebug()<<dl_modul;
+
+
+    int dx = (dl_modul+40)/7;
+    int dy = 40;
+
     movedp0.setY(p0.y()-dy);
     movedp0.setX(p0.x()-dx);
+
+    QSize wymiar ( dl_modul+40, dy*2);
+    QPixmap modul2 =  modul.scaled(wymiar,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    QGraphicsPixmapItem *reka = new QGraphicsPixmapItem (modul2);
 
     reka->setPos(movedp0);
     reka->setTransformOriginPoint(dx,dy);
@@ -117,6 +118,8 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
     angle = qRadiansToDegrees(angle);
     reka->setRotation(angle);
     s->addItem(reka);
+
+
 }
 
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
@@ -227,6 +230,8 @@ void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
 void MainWindow::dodaj_obiekty_fizyczne()
 {
     QPixmap map(":/kw.png");
+
+
     QPixmap polka(":/polka.png");
     QPixmap szafka(":/szafka_mala.png");
     map = map.scaled(50, 50);

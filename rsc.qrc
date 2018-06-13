@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>kw.png</file>
-        <file>modul.png</file>
         <file>polka.png</file>
         <file>tlo.png</file>
         <file>szafka_mala.png</file>
+        <file>modul.png</file>
+        <file>kw.png</file>
     </qresource>
 </RCC>
