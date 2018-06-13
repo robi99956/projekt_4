@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
+    s->addItem(tlo);
 
 
     QGraphicsItem * wsk;
