@@ -6,158 +6,190 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1272</width>
-    <height>970</height>
+    <width>1275</width>
+    <height>897</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Symulator ramienia robota</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QSplitter" name="splitter">
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>15</x>
+      <y>10</y>
+      <width>830</width>
+      <height>840</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Podgląd</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
       <x>860</x>
-      <y>90</y>
-      <width>381</width>
-      <height>441</height>
+      <y>10</y>
+      <width>401</width>
+      <height>491</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
-    <property name="handleWidth">
-     <number>30</number>
+    <property name="title">
+     <string>Ustawienia</string>
     </property>
-    <widget class="QWidget" name="layoutWidget">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Szybkość ruchów robota</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QSlider" name="horizontalSlider">
-          <property name="minimum">
-           <number>3</number>
-          </property>
-          <property name="maximum">
-           <number>30</number>
-          </property>
-          <property name="value">
-           <number>5</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="speed_label">
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Naciśnij R aby rozpocząć/zakończyć nagrywanie</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="rec_info">
-            <property name="text">
-             <string>Brak zawartości</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="rec_play">
-            <property name="text">
-             <string>odtwórz</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="text">
-         <string>&lt;b&gt;Lista nagranych ruchów ramienia&lt;/b&gt;</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="margin">
-         <number>11</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QListWidget" name="list_przebiegow">
-        <property name="currentRow">
-         <number>-1</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <widget class="QSplitter" name="splitter">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>381</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="handleWidth">
+      <number>30</number>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Szybkość ruchów robota</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QSlider" name="horizontalSlider">
+           <property name="minimum">
+            <number>3</number>
+           </property>
+           <property name="maximum">
+            <number>30</number>
+           </property>
+           <property name="value">
+            <number>5</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Naciśnij R aby rozpocząć/zakończyć nagrywanie</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="rec_info">
+             <property name="text">
+              <string>Brak zawartości</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="rec_play">
+             <property name="text">
+              <string>odtwórz</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>&lt;b&gt;Lista nagranych ruchów ramienia&lt;/b&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="margin">
+          <number>11</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="list_przebiegow">
+         <property name="currentRow">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -166,7 +198,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1272</width>
+     <width>1275</width>
      <height>26</height>
     </rect>
    </property>

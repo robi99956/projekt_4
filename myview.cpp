@@ -8,7 +8,7 @@ myGraphicsView::myGraphicsView()
 
 void myGraphicsView::mousePressEvent(QMouseEvent *e)
 {
-//    emit mysza(e->pos());
+    emit mysza(e->pos());
 }
 
 void myGraphicsView::mouseMoveEvent(QMouseEvent *e)

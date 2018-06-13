@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     scena = new myGraphicsView;
-    scena->setGeometry( 25, 25, 800, 800 );
-    scena->setParent(this);
+    scena->setGeometry( 15, 23, 800, 800 );
+    scena->setParent( ui->groupBox );
     scena->show();
 
     scena->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
@@ -47,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent) :
     timer_zegarka.start(500);
 
     robot->dodaj_strefe_zakazana( QRect( 0, 0, 235, 310) );
+
+    QSize rozmiar = this->geometry().size();
+    this->setMaximumSize(rozmiar);
+    this->setMinimumSize(rozmiar);
 }
 
 MainWindow::~MainWindow()
@@ -113,7 +117,6 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
-    ui->speed_label->setText(QString::number(position));
     robot->ustaw_czas_odtwarzania( position );
 }
 
@@ -192,20 +195,29 @@ void MainWindow::rysuj_wskazowki()
     usun_wskazowke(godz); usun_wskazowke(min); usun_wskazowke(sec);
 
     godz = rysuj_wskazowke( Qt::black, 12, czas.hour() + czas.minute()/60.0, 30 );
-    min = rysuj_wskazowke( Qt::green, 60, czas.minute() + czas.second()/60.0, 40 );
+    min = rysuj_wskazowke( Qt::red, 60, czas.minute() + czas.second()/60.0, 40 );
     sec = rysuj_wskazowke( Qt::blue, 60, czas.second(), 50 );
 }
 
 void MainWindow::rysuj_strefe_zakazana(QRect strefa)
 {
     s->addRect( strefa, QPen(Qt::red) );
+
+    ui->statusBar->showMessage("You shall not pass!", 1000);
 }
 
 void MainWindow::mysza_event(QPoint p)
 {
     if( trzymany )
     {
-        QPointF pos(p);
+        QPointF pos = trzymany->pos();
+
+        int x1 = p.x(), y1 = p.y(), x2 = pos.x(), y2 = pos.y();
+
+        x1 += (x2-x1)/2;
+        y1 += (y2-y1)/2;
+        pos = QPointF( x1, y1 );
+
         QSizeF rozmiar = trzymany->boundingRect().size();
         QRectF obszar(pos, rozmiar);
 
