@@ -21,7 +21,6 @@ public:
 
     void dodaj_strefe_zakazana( QRect strefa );
 
-    void odtwarzanie(int ktory);
     int getRamieLastId();
 
     ~ramie( void );

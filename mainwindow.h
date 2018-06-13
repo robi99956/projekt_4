@@ -59,6 +59,9 @@ private:
     enum status_nagrywania{NAGRYWANIE, ODTWARZANIE, GOTOWY};
 
     void zmien_napis_statusu( status_nagrywania status );
+    void dodaj_obiekty_fizyczne( void );
+    void wstepne_kolory_labeli( void );
+    void polacz_sygnaly( void );
 };
 
 #endif // MAINWINDOW_H

@@ -15,7 +15,7 @@ ramie::ramie(int l1, int l2, QPoint poczatek)
     timer.start(TIMER_CZAS);
     timer_odtwarzania.setInterval(TIMER_CZAS);
 
-    nr_probki = nr_przebiegu = 0;
+    nr_probki = nr_przebiegu = -1;
 }
 
 void ramie::zlap(QGraphicsItem *klocek)
@@ -41,32 +41,14 @@ void ramie::odtworz(int numer)
     {
         nr_przebiegu = numer;
         nr_probki = 0;
-        timer_odtwarzania.start();
+
+        docelowy = zbior_przebiegow[ nr_przebiegu ]->at(0);
     }
 }
 
 void ramie::dodaj_strefe_zakazana(QRect strefa)
 {
     zakazane.push_back( strefa );
-}
-
-void ramie::odtwarzanie(int ktory)
-{
-    for(int i = 0; i < zbior_przebiegow[ktory]->size(); i++)
-    {
-        aktualny = zbior_przebiegow[ktory]->at(i);
-
-        p2 = aktualny = wyznacz_kolejny();
-        p1 = k->przelicz(p2);
-
-        if( p1.isNull() ) return;
-
-        p1.setX( p1.x() + p0.x() );
-        p1.setY( p0.y() - p1.y() );
-
-        emit rysuj(p0, p1, p2);
-
-    }
 }
 
 int ramie::getRamieLastId()
@@ -86,6 +68,8 @@ ramie::~ramie()
 
 void ramie::ustaw(QPoint p)
 {
+    if( timer_odtwarzania.isActive() ) return;
+
     docelowy = p;
 }
 
@@ -139,7 +123,11 @@ void ramie::ustaw_czas_odtwarzania(int czas)
 
 void ramie::animacja()
 {
-    if( aktualny == docelowy ) return;
+    if( aktualny == docelowy )
+    {
+        if( nr_przebiegu > -1 && timer_odtwarzania.isActive() == 0 ) timer_odtwarzania.start();
+        return;
+    }
 
     p2 = aktualny = wyznacz_kolejny();
 
@@ -153,6 +141,8 @@ void ramie::animacja()
 
 void ramie::odtwarzanie()
 {
+    if( nr_przebiegu == -1 ) return;
+
     if( nr_przebiegu < zbior_przebiegow.size() )
     {
         przebieg *dane = zbior_przebiegow[nr_przebiegu];
@@ -167,6 +157,9 @@ void ramie::odtwarzanie()
         {
             timer_odtwarzania.stop();
             emit koniec_odtwarzania();
+            docelowy = aktualny;
+
+            nr_przebiegu = -1;
         }
     }
 }

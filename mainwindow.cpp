@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QGraphicsItem>
+#include <QTime>
 
 #include "kinematyka.h"
 
@@ -25,23 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     robot = new ramie(200, 200, QPoint( scena->width()/2, scena->height()/2) );
     spadanie = new fizyka(0, scena->height() );
 
-    connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
-    connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
-    connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
-    connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
-
-    connect(robot, SIGNAL(koniec_odtwarzania()), this, SLOT(koniec_odtwarzania()));
-
-    //----nagrywanie pod r
-    connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
-
     rect = s->sceneRect();
 
-    QPixmap map(":/kw.png");
-    QPixmap polka(":/polka.png");
-    QPixmap szafka(":/szafka_mala.png");
-    map = map.scaled(50, 50);
-
+    polacz_sygnaly();
 
     //--------widgety z ui-------------
     ui->horizontalSlider->setMaximum(30);
@@ -51,46 +38,11 @@ MainWindow::MainWindow(QWidget *parent) :
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
 
-
-    QGraphicsItem * wsk;
-    obiekt obj = {NULL, 0, 1};
-
-    for( int i=0; i<4; i++ )
-    {
-        wsk = s->addPixmap(map);
-        wsk->setPos(100+60*i, 500);
-
-        obj.wsk = wsk;
-        klocki.push_back(obj);
-    }
-
-    obiekt ikea = {NULL, 0 , 0 };
-    QPixmap repolka = polka.scaled(350,polka.height()/2);
-    wsk = s->addPixmap(repolka);
-    wsk->setPos(450,400);
-    ikea.wsk = wsk;
-    klocki.push_back(ikea);
-    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
-
-    QPixmap reszafka = szafka.scaled(270,250);
-    wsk = s->addPixmap(reszafka);
-    wsk->setPos(25,550);
-    ikea.wsk = wsk;
-    klocki.push_back(ikea);
-    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
+    dodaj_obiekty_fizyczne();
+    wstepne_kolory_labeli();
 
     trzymany = NULL;
     spadanie->zarejestruj_obiekty( &klocki );
-
-
-    //------qlabel colors
-    ui->rec_info->setAutoFillBackground(true);
-    kol_green = ui->rec_info->palette();
-    kol_red = ui->rec_info->palette();
-    kol_blue = ui->rec_info->palette();
-    kol_green.setColor(QPalette::Window, QColor(Qt::green));
-    kol_red.setColor(QPalette::Window, QColor(Qt::red));
-    kol_blue.setColor(QPalette::Window, QColor::fromRgb(51,255,255));
 
     robot->ustaw( QPoint( scena->width()/2-100, scena->height()/2-200 ) );
 }
@@ -220,4 +172,64 @@ void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
         ui->rec_info->setPalette(kol_red);
         break;
     }
+}
+
+void MainWindow::dodaj_obiekty_fizyczne()
+{
+    QPixmap map(":/kw.png");
+    QPixmap polka(":/polka.png");
+    QPixmap szafka(":/szafka_mala.png");
+    map = map.scaled(50, 50);
+
+    QGraphicsItem * wsk;
+    obiekt obj = {NULL, 0, 1};
+
+    for( int i=0; i<4; i++ )
+    {
+        wsk = s->addPixmap(map);
+        wsk->setPos(100+60*i, 500);
+
+        obj.wsk = wsk;
+        klocki.push_back(obj);
+    }
+
+    obiekt ikea = {NULL, 0 , 0 };
+    QPixmap repolka = polka.scaled(350,polka.height()/2);
+    wsk = s->addPixmap(repolka);
+    wsk->setPos(450,400);
+    ikea.wsk = wsk;
+    klocki.push_back(ikea);
+    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
+
+    QPixmap reszafka = szafka.scaled(270,250);
+    wsk = s->addPixmap(reszafka);
+    wsk->setPos(25,550);
+    ikea.wsk = wsk;
+    klocki.push_back(ikea);
+    robot->dodaj_strefe_zakazana( QRect( ikea.wsk->pos().toPoint(), ikea.wsk->boundingRect().size().toSize() ) );
+}
+
+void MainWindow::wstepne_kolory_labeli()
+{
+    //------qlabel colors
+    ui->rec_info->setAutoFillBackground(true);
+    kol_green = ui->rec_info->palette();
+    kol_red = ui->rec_info->palette();
+    kol_blue = ui->rec_info->palette();
+    kol_green.setColor(QPalette::Window, QColor(Qt::green));
+    kol_red.setColor(QPalette::Window, QColor(Qt::red));
+    kol_blue.setColor(QPalette::Window, QColor::fromRgb(51,255,255));
+}
+
+void MainWindow::polacz_sygnaly()
+{
+    connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
+    connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
+    connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
+    connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
+
+    connect(robot, SIGNAL(koniec_odtwarzania()), this, SLOT(koniec_odtwarzania()));
+
+    //----nagrywanie pod r
+    connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
 }
