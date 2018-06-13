@@ -123,6 +123,8 @@ void ramie::ustaw_czas_odtwarzania(int czas)
 
 void ramie::animacja()
 {
+    if( timer_odtwarzania.isActive() ) return;
+
     if( aktualny == docelowy )
     {
         if( nr_przebiegu > -1 && timer_odtwarzania.isActive() == 0 ) timer_odtwarzania.start();

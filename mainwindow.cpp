@@ -32,11 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     polacz_sygnaly();
 
-    //--------widgety z ui-------------
-    ui->horizontalSlider->setMaximum(30);
-    ui->horizontalSlider->setMinimum(4);
-
-
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
 
@@ -121,6 +116,7 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
     ui->speed_label->setText(QString::number(position));
+    robot->ustaw_czas_odtwarzania( position );
 }
 
 void MainWindow::nagraj(int stan)
