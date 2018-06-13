@@ -34,11 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
-<<<<<<< HEAD
     s->addPixmap(tlo);
-=======
-
->>>>>>> f7c52ff61243a7f065c8f2d40b664b3d76dc61aa
 
     dodaj_obiekty_fizyczne();
     wstepne_kolory_labeli();
@@ -85,13 +81,6 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     narysuj_ramie(p0,p1);
     narysuj_ramie(p1,p2);
-<<<<<<< HEAD
-=======
-
-//   s->addLine( p0.x(), p0.y(), p1.x(), p1.y() );
-
-//   s->addLine( p1.x(), p1.y(), p2.x(), p2.y() );
->>>>>>> f7c52ff61243a7f065c8f2d40b664b3d76dc61aa
 }
 
 
@@ -104,7 +93,7 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 
 
     int dx = (dl_modul+40)/7;
-    int dy = 35;
+    int dy = 40;
 
     movedp0.setY(p0.y()-dy);
     movedp0.setX(p0.x()-dx);
