@@ -119,6 +119,7 @@ void ramie::KeyEvent(int kod)
 void ramie::ustaw_czas_odtwarzania(int czas)
 {
     timer_odtwarzania.setInterval( czas );
+    timer.setInterval(czas);
 }
 
 void ramie::animacja()
@@ -131,7 +132,10 @@ void ramie::animacja()
         return;
     }
 
-    p2 = aktualny = wyznacz_kolejny();
+    p2 = wyznacz_kolejny();
+    if( p2 == aktualny ) return;
+
+    aktualny = p2;
 
     ustaw_bez_animacji();
 
@@ -187,7 +191,11 @@ bool ramie::czy_moge_tam_isc(QPoint p)
 {
     for( QVector<QRect>::iterator strefa=zakazane.begin(); strefa != zakazane.end(); strefa++ )
     {
-        if( strefa->contains( p ) ) return 0;
+        if( strefa->contains( p ) )
+        {
+            emit rysuj_strefe_zakazana( *strefa );
+            return 0;
+        }
     }
 
     return 1;

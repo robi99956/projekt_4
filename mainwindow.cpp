@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     robot->ustaw( QPoint( scena->width()/2-100, scena->height()/2-200 ) );
 
     timer_zegarka.start(500);
+
+    robot->dodaj_strefe_zakazana( QRect( 0, 165, 235, 145) );
 }
 
 MainWindow::~MainWindow()
@@ -199,6 +201,11 @@ void MainWindow::rysuj_wskazowki()
     sec = rysuj_wskazowke( Qt::blue, 60, czas.second(), 50 );
 }
 
+void MainWindow::rysuj_strefe_zakazana(QRect strefa)
+{
+    s->addRect( strefa, QPen(Qt::red) );
+}
+
 void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
 {
     switch( status )
@@ -280,4 +287,6 @@ void MainWindow::polacz_sygnaly()
     connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
 
     connect(&timer_zegarka, SIGNAL(timeout()), this, SLOT(rysuj_wskazowki()));
+
+    connect(robot, SIGNAL(rysuj_strefe_zakazana(QRect)), this, SLOT(rysuj_strefe_zakazana(QRect)));
 }

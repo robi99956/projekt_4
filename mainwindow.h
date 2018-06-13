@@ -36,6 +36,8 @@ private slots:
 
     void rysuj_wskazowki( void );
 
+    void rysuj_strefe_zakazana( QRect strefa );
+
 private:
     Ui::MainWindow *ui;
     myGraphicsView * scena;
