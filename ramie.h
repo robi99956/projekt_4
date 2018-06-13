@@ -32,6 +32,7 @@ signals:
     void nagrywanie(int stan);  //odsyłacz do qLabela na ui
     void koniec_odtwarzania( void );
 
+    void rysuj_strefe_zakazana( QRect strefa );
 
 public slots:
     void ustaw( QPoint p );

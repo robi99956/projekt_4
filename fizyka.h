@@ -19,6 +19,7 @@ class fizyka : public QObject
 public:
     fizyka( int w, int h );
     void zarejestruj_obiekty( QVector< obiekt > *obiekty );
+    bool czy_cos_jest(QRectF klocek, QGraphicsItem *opuszczamy );
 
 public slots:
     void zlapane( QGraphicsItem * klocek );
@@ -27,7 +28,6 @@ private slots:
     void klatka( void );
 
 private:
-    bool czy_cos_jest(QRectF klocek, QGraphicsItem *opuszczamy );
 
     QVector< obiekt > *obiekty;
     int w, h;

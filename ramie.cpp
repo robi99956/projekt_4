@@ -82,7 +82,7 @@ void ramie::ustaw_bez_animacji(void)
     p1.setX( p1.x() + p0.x() );
     p1.setY( p0.y() - p1.y() );
 
-    if( trzymany ) trzymany->setPos( p2 );
+//    if( trzymany ) trzymany->setPos( p2 );
 
     emit rysuj(p0, p1, p2);
 }
@@ -119,17 +119,23 @@ void ramie::KeyEvent(int kod)
 void ramie::ustaw_czas_odtwarzania(int czas)
 {
     timer_odtwarzania.setInterval( czas );
+    timer.setInterval(czas);
 }
 
 void ramie::animacja()
 {
+    if( timer_odtwarzania.isActive() ) return;
+
     if( aktualny == docelowy )
     {
         if( nr_przebiegu > -1 && timer_odtwarzania.isActive() == 0 ) timer_odtwarzania.start();
         return;
     }
 
-    p2 = aktualny = wyznacz_kolejny();
+    p2 = wyznacz_kolejny();
+    if( p2 == aktualny ) return;
+
+    aktualny = p2;
 
     ustaw_bez_animacji();
 
@@ -176,7 +182,13 @@ QPoint ramie::wyznacz_kolejny()
     else
         if( aktualny.y() < docelowy.y() ) p.setY( aktualny.y()+1 );
 
-    if( czy_moge_tam_isc(p) == 0 ) return aktualny;
+    if( trzymany ) trzymany->setPos(p);
+
+    if( czy_moge_tam_isc(p) == 0 )
+    {
+        if( trzymany ) trzymany->setPos(aktualny);
+        return aktualny;
+    }
 
     return p;
 }
@@ -185,7 +197,11 @@ bool ramie::czy_moge_tam_isc(QPoint p)
 {
     for( QVector<QRect>::iterator strefa=zakazane.begin(); strefa != zakazane.end(); strefa++ )
     {
-        if( strefa->contains( p ) ) return 0;
+        if( strefa->contains( p ) )
+        {
+            emit rysuj_strefe_zakazana( *strefa );
+            return 0;
+        }
     }
 
     return 1;

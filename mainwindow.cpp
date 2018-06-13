@@ -32,14 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     polacz_sygnaly();
 
-    //--------widgety z ui-------------
-    ui->horizontalSlider->setMaximum(30);
-    ui->horizontalSlider->setMinimum(4);
-
-
     bck.load(":/tlo.png");
     tlo = bck.scaled(s->width(),s->height());
+<<<<<<< HEAD
 
+=======
+    s->addPixmap(tlo);
+>>>>>>> 6b175989c7af8b5d72a246182ad1e65528b69aab
 
     dodaj_obiekty_fizyczne();
     wstepne_kolory_labeli();
@@ -50,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     robot->ustaw( QPoint( scena->width()/2-100, scena->height()/2-200 ) );
 
     timer_zegarka.start(500);
+
+    robot->dodaj_strefe_zakazana( QRect( 0, 0, 235, 310) );
 }
 
 MainWindow::~MainWindow()
@@ -125,6 +126,7 @@ void MainWindow::narysuj_ramie(QPoint p0, QPoint p1)
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
     ui->speed_label->setText(QString::number(position));
+    robot->ustaw_czas_odtwarzania( position );
 }
 
 void MainWindow::nagraj(int stan)
@@ -206,6 +208,30 @@ void MainWindow::rysuj_wskazowki()
     sec = rysuj_wskazowke( Qt::blue, 60, czas.second(), 50 );
 }
 
+void MainWindow::rysuj_strefe_zakazana(QRect strefa)
+{
+    s->addRect( strefa, QPen(Qt::red) );
+}
+
+void MainWindow::mysza_event(QPoint p)
+{
+    if( trzymany )
+    {
+        QPointF pos(p);
+        QSizeF rozmiar = trzymany->boundingRect().size();
+        QRectF obszar(pos, rozmiar);
+
+        if( spadanie->czy_cos_jest(obszar, trzymany) ) return;
+    }
+
+    robot->ustaw(p);
+}
+
+void MainWindow::robot_zlapal(QGraphicsItem *obj)
+{
+    trzymany = obj;
+}
+
 void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
 {
     switch( status )
@@ -278,10 +304,11 @@ void MainWindow::wstepne_kolory_labeli()
 
 void MainWindow::polacz_sygnaly()
 {
-    connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
+    connect(scena, SIGNAL(mysza(QPoint)), this, SLOT(mysza_event(QPoint)));
     connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
     connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
     connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
+    connect(robot, SIGNAL(zlapal(QGraphicsItem*)), this, SLOT(robot_zlapal(QGraphicsItem*)));
 
     connect(robot, SIGNAL(koniec_odtwarzania()), this, SLOT(koniec_odtwarzania()));
 
@@ -289,4 +316,6 @@ void MainWindow::polacz_sygnaly()
     connect(robot,SIGNAL(nagrywanie(int)),this,SLOT(nagraj(int)));
 
     connect(&timer_zegarka, SIGNAL(timeout()), this, SLOT(rysuj_wskazowki()));
+
+    connect(robot, SIGNAL(rysuj_strefe_zakazana(QRect)), this, SLOT(rysuj_strefe_zakazana(QRect)));
 }
