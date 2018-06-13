@@ -48,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalSlider->setMinimum(4);
 
 
-  //  bck.load(":/tlo.png");
-  //  nju = bck.scaled(s->width(),s->height());
+    bck.load(":/tlo.png");
+    tlo = bck.scaled(s->width(),s->height());
 
 
     QGraphicsItem * wsk;
@@ -110,7 +110,7 @@ void MainWindow::rysuj(QPoint p0, QPoint p1, QPoint p2)
 
     s->clear();
     s->setSceneRect(rect);
-  //  s->addPixmap(nju);
+    s->addPixmap(tlo);
 
     for( int i=0; i<klocki.size(); i++ )
     {

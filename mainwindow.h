@@ -47,7 +47,7 @@ private:
     QGraphicsItem * trzymany;
 
     QPixmap bck;
-    QPixmap nju;
+    QPixmap tlo;
 
     ramie * robot;
     fizyka * spadanie;
