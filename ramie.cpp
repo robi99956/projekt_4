@@ -82,7 +82,7 @@ void ramie::ustaw_bez_animacji(void)
     p1.setX( p1.x() + p0.x() );
     p1.setY( p0.y() - p1.y() );
 
-    if( trzymany ) trzymany->setPos( p2 );
+//    if( trzymany ) trzymany->setPos( p2 );
 
     emit rysuj(p0, p1, p2);
 }
@@ -182,7 +182,13 @@ QPoint ramie::wyznacz_kolejny()
     else
         if( aktualny.y() < docelowy.y() ) p.setY( aktualny.y()+1 );
 
-    if( czy_moge_tam_isc(p) == 0 ) return aktualny;
+    if( trzymany ) trzymany->setPos(p);
+
+    if( czy_moge_tam_isc(p) == 0 )
+    {
+        if( trzymany ) trzymany->setPos(aktualny);
+        return aktualny;
+    }
 
     return p;
 }

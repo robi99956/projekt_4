@@ -38,6 +38,9 @@ private slots:
 
     void rysuj_strefe_zakazana( QRect strefa );
 
+    void mysza_event( QPoint p );
+    void robot_zlapal( QGraphicsItem * obj );
+
 private:
     Ui::MainWindow *ui;
     myGraphicsView * scena;

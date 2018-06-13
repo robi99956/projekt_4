@@ -206,6 +206,25 @@ void MainWindow::rysuj_strefe_zakazana(QRect strefa)
     s->addRect( strefa, QPen(Qt::red) );
 }
 
+void MainWindow::mysza_event(QPoint p)
+{
+    if( trzymany )
+    {
+        QPointF pos(p);
+        QSizeF rozmiar = trzymany->boundingRect().size();
+        QRectF obszar(pos, rozmiar);
+
+        if( spadanie->czy_cos_jest(obszar, trzymany) ) return;
+    }
+
+    robot->ustaw(p);
+}
+
+void MainWindow::robot_zlapal(QGraphicsItem *obj)
+{
+    trzymany = obj;
+}
+
 void MainWindow::zmien_napis_statusu(MainWindow::status_nagrywania status)
 {
     switch( status )
@@ -276,10 +295,11 @@ void MainWindow::wstepne_kolory_labeli()
 
 void MainWindow::polacz_sygnaly()
 {
-    connect(scena, SIGNAL(mysza(QPoint)), robot, SLOT(ustaw(QPoint)));
+    connect(scena, SIGNAL(mysza(QPoint)), this, SLOT(mysza_event(QPoint)));
     connect(robot, SIGNAL(rysuj(QPoint,QPoint,QPoint)), this, SLOT(rysuj(QPoint,QPoint,QPoint)));
     connect(scena, SIGNAL(klawisz(int)), robot, SLOT(KeyEvent(int)));
     connect(robot, SIGNAL(zlapal(QGraphicsItem*)), spadanie, SLOT(zlapane(QGraphicsItem*)));
+    connect(robot, SIGNAL(zlapal(QGraphicsItem*)), this, SLOT(robot_zlapal(QGraphicsItem*)));
 
     connect(robot, SIGNAL(koniec_odtwarzania()), this, SLOT(koniec_odtwarzania()));
 
